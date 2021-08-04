@@ -15,7 +15,7 @@ export class AdminInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<any> {
 
     if (request.url.includes('user')) {
-      const authToken = this.authService.userToken;
+      const authToken = this.authService.userValue.token;
       const authRequest = request.clone({ setHeaders: { auth: authToken } })
       return next.handle(authRequest);
     }

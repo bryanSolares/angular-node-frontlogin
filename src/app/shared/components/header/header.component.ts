@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '@pages/auth/services/auth.service';
 import { takeUntil } from 'rxjs/operators';
 import { UtilsService } from '../../services/utils.service';
+import { UserReponse } from '../../models/user.interface';
 
 @Component({
   selector: 'app-header',
@@ -21,9 +22,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService, private _utilsService: UtilsService) { }
 
   ngOnInit(): void {
-    //this._subscription.add(this.authService.isLogged$.subscribe(response => this.islogged = response));
-    this.authService.isLogged$.pipe(takeUntil(this._destroy$)).subscribe(response => this.islogged = response)
-    this.authService.idAdmin$.pipe(takeUntil(this._destroy$)).subscribe(response => this.isAdmin = response);
+    // * this._subscription.add(this.authService.isLogged$.subscribe((user: UserReponse) => { this.islogged = true; this.isAdmin = user.role });
+    this.authService.user$.pipe(takeUntil(this._destroy$)).subscribe((user: UserReponse) => { user ? this.islogged = true : this.islogged = false; this.isAdmin = user?.role; })
   }
 
   onToogleSidenav() {

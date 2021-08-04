@@ -10,7 +10,7 @@ import { UsersService } from '../services/users.service';
 })
 export class UsersComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['userId', 'username', 'role'];
+  displayedColumns: string[] = ['userId', 'username', 'role', 'actions'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatSort) sort: MatSort;
 

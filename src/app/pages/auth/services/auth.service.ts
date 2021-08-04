@@ -14,25 +14,20 @@ const helper = new JwtHelperService();
 })
 export class AuthService {
 
-  private _loggedIn = new BehaviorSubject<boolean>(false);
-  private _role = new BehaviorSubject<Roles>(null);
-  private _userToken = new BehaviorSubject<string>(null);
+  private _user = new BehaviorSubject<UserReponse>(null);
 
   constructor(private http: HttpClient, private router: Router) {
     this.checkToken();
   }
 
-  get isLogged$(): Observable<boolean> {
-    return this._loggedIn.asObservable();
+  get user$(): Observable<UserReponse> {
+    return this._user.asObservable();
   }
 
-  get idAdmin$(): Observable<string> {
-    return this._role.asObservable();
+  get userValue(): UserReponse {
+    return this._user.getValue();
   }
 
-  get userToken(): string {
-    return this._userToken.getValue();
-  }
 
   login(authData: User): Observable<UserReponse | void> {
     return this.http.post<UserReponse>(`${environment.API_URL}/auth/login`, authData).pipe(
@@ -51,9 +46,7 @@ export class AuthService {
       if (isExpired) {
         this.logout()
       } else {
-        this._loggedIn.next(true);
-        this._role.next(user.role);
-        this._userToken.next(user.token);
+        this._user.next(user);
       }
 
     }
@@ -62,16 +55,12 @@ export class AuthService {
   private saveLocalStorage(user: UserReponse): void {
     const { userId, message, ...rest } = user;
     localStorage.setItem('user', JSON.stringify(rest));
-    this._userToken.next(user.token);
-    this._loggedIn.next(true);
-    this._role.next(rest.role);
+    this._user.next(user);
   }
 
   logout(): void {
     localStorage.removeItem('user');
-    this._loggedIn.next(false);
-    this._role.next(null);
-    this._userToken.next(null);
+    this._user.next(null);
     this.router.navigateByUrl('/login');
   }
 
