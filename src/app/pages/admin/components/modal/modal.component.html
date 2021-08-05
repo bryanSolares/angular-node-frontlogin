@@ -1,0 +1,44 @@
+<h2 mat-dialog-title align=center> {{data?.title | uppercase}} </h2>
+<mat-dialog-content>
+  <div class="modal-form">
+    <form [formGroup]="baseFormUser.baseForm">
+
+      <mat-form-field class="full-width-input">
+        <input formControlName="username" matInput mat-input placeholder="Username" required>
+        <mat-error *ngIf="checkField('username')">
+          {{baseFormUser.getErrorMessage("username")}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width-input" *ngIf="showPasswordField">
+        <input formControlName="password" matInput mat-input placeholder="Password" required>
+        <button mat-icon-button matSuffix (click)="hide = !hide">
+          <mat-icon>{{ hide ? "visibility_off" : "visibility"}}</mat-icon>
+        </button>
+        <mat-error *ngIf="checkField('password')">
+          {{baseFormUser.getErrorMessage("password")}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width-input">
+        <mat-label>Select</mat-label>
+        <mat-select formControlName="role">
+          <mat-option value="SUSCRIPTOR_ROLE">SUSCRIPTOR_ROLE</mat-option>
+          <mat-option value="VIEW_ROLE">VIEW_ROLE</mat-option>
+          <mat-option value="ADMIN_ROLE">ADMIN_ROLE</mat-option>
+          <mat-option value="USER_ROLE">USER_ROLE</mat-option>
+        </mat-select>
+        <mat-error *ngIf="checkField('role')">
+          {{baseFormUser.getErrorMessage("role")}}
+        </mat-error>
+      </mat-form-field>
+
+    </form>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button mat-dialog-close="true" color="primary" (click)="onSave()" cdkFocusInitial
+    [disabled]="!baseFormUser.baseForm.valid">Save</button>
+</mat-dialog-actions>

@@ -11,6 +11,7 @@ import { MaterialModule } from "@app/material.module";
 import { AdminModule } from '@pages/admin/admin.module';
 import { SidebarModule } from '@shared/components/sidebar/sidebar.module';
 import { AdminInterceptor } from '@shared/interceptors/admin.interceptor';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AdminInterceptor } from '@shared/interceptors/admin.interceptor';
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
+    ReactiveFormsModule,
     AdminModule,
     SidebarModule,
     MaterialModule,

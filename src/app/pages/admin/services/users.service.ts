@@ -35,7 +35,7 @@ export class UsersService {
   private handlerError(error): Observable<never> {
     let errorMessage = 'Error unknown';
     if (error) {
-      errorMessage = `Error: ${error}`
+      errorMessage = `Error: ${error.message || error}`
     }
 
     window.alert(errorMessage)

@@ -10,6 +10,8 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatSelectModule } from "@angular/material/select";
 
 const myModule = [
   MatToolbarModule,
@@ -22,7 +24,9 @@ const myModule = [
   MatFormFieldModule,
   MatInputModule,
   MatTableModule,
-  MatSortModule];
+  MatSortModule,
+  MatDialogModule,
+  MatSelectModule];
 
 @NgModule({
   imports: [...myModule],
