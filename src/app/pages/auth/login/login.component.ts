@@ -3,6 +3,7 @@ import { FormBuilder, ValidationErrors, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { BaseFormUser } from '../../../shared/utils/base-form-user';
 
 @Component({
   selector: 'app-login',
@@ -13,47 +14,27 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   hide = true;
   private subscription = new Subscription;
-  private isValidEmail = /\S+@\S+\.\S+/;
-  loginForm = this.formBuilder.group({
-    username: ['', [Validators.required, Validators.pattern(this.isValidEmail)]],
-    password: ['', [Validators.required, Validators.minLength(5)]]
-  });
 
-  constructor(private authService: AuthService, private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, public baseFormLogin: BaseFormUser) { }
 
   ngOnInit(): void {
+    this.baseFormLogin.baseForm.get('role').clearValidators();
+    this.baseFormLogin.baseForm.get('role').updateValueAndValidity();
   }
 
   onLogin(): void {
-    if (this.loginForm.invalid) {
+
+    if (this.baseFormLogin.baseForm.invalid) {
       return;
     }
 
-    const formValue = this.loginForm.value;
+    const formValue = this.baseFormLogin.baseForm.value;
     this.subscription.add(
       this.authService.login(formValue).subscribe(responseUser => {
         if (responseUser) {
           this.router.navigateByUrl('/');
         }
       }));
-  }
-
-  getErrorMessage(field: string): string {
-    let message;
-    if (this.loginForm.get(field).errors.required) {
-      message = 'You must enter a value';
-    } else if (this.loginForm.get(field).hasError('pattern')) {
-      message = 'Not a valid email';
-    } else if (!this.loginForm.get(field).hasError('minLength')) {
-      const minLength = this.loginForm.get(field).errors?.minlength.requiredLength;
-      message = `This field must be longer than ${minLength} characters`;
-    }
-
-    return message;
-  }
-
-  isValidField(field: string): boolean {
-    return (this.loginForm.get(field).touched || this.loginForm.get(field).dirty) && !this.loginForm.get(field).valid;
   }
 
   ngOnDestroy(): void {

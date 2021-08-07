@@ -52,16 +52,16 @@ export class AuthService {
     }
   }
 
-  private saveLocalStorage(user: UserReponse): void {
-    const { userId, message, ...rest } = user;
-    localStorage.setItem('user', JSON.stringify(rest));
-    this._user.next(user);
-  }
-
   logout(): void {
     localStorage.removeItem('user');
     this._user.next(null);
     this.router.navigateByUrl('/login');
+  }
+
+  private saveLocalStorage(user: UserReponse): void {
+    const { userId, message, ...rest } = user;
+    localStorage.setItem('user', JSON.stringify(rest));
+    this._user.next(user);
   }
 
   private handleError(error: any): Observable<never> {

@@ -32,7 +32,7 @@ export class ModalComponent implements OnInit, OnDestroy {
       this.baseFormUser.baseForm.get('password').setValidators(null);
       // * this.baseFormUser.baseForm.get('password').clearValidators();
       this.baseFormUser.baseForm.updateValueAndValidity();
-      this.patchFormData();
+      this.patchFormData(this.data.user.username, this.data.user.role);
     }
   }
 
@@ -49,11 +49,12 @@ export class ModalComponent implements OnInit, OnDestroy {
     return this.baseFormUser.isValidField(field);
   }
 
-  private patchFormData(): void {
-    this.baseFormUser.baseForm.patchValue({ username: this.data?.user.username, role: this.data?.user.role })
+  private patchFormData(username: string = '', role: string = ''): void {
+    this.baseFormUser.baseForm.patchValue({ username, role })
   }
 
   ngOnDestroy(): void {
+    this.patchFormData();
     this._destroy$.next({});
     this._destroy$.complete();
   }

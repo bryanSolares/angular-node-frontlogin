@@ -2,11 +2,11 @@
   <mat-card>
     <mat-card-content>
       <h1>Login</h1>
-      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <form [formGroup]="baseFormLogin.baseForm" (ngSubmit)="onLogin()">
         <mat-form-field class="full-width-input">
           <input type="text" matInput placeholder="Username" required formControlName="username">
-          <mat-error *ngIf="isValidField('username')">
-            {{getErrorMessage("username")}}
+          <mat-error *ngIf="baseFormLogin.isValidField('username')">
+            {{baseFormLogin.getErrorMessage("username")}}
           </mat-error>
         </mat-form-field>
         <mat-form-field class="full-width-input separator">
@@ -14,11 +14,12 @@
           <button mat-icon-button matSuffix (click)="hide = !hide">
             <mat-icon>{{ hide ? "visibility_off" : "visibility"}}</mat-icon>
           </button>
-          <mat-error *ngIf="isValidField('password')">
-            {{getErrorMessage("password")}}
+          <mat-error *ngIf="baseFormLogin.isValidField('password')">
+            {{baseFormLogin.getErrorMessage("password")}}
           </mat-error>
         </mat-form-field>
-        <button [disabled]="loginForm.invalid" type="submit" mat-raised-button color="primary">Login</button>
+        <button [disabled]="baseFormLogin.baseForm.invalid" type="submit" mat-raised-button
+          color="primary">Login</button>
       </form>
 
     </mat-card-content>
